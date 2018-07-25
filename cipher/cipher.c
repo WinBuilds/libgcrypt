@@ -534,7 +534,6 @@ _gcry_cipher_open_internal (gcry_cipher_hd_t *handle,
       case GCRY_CIPHER_MODE_CTR:
       case GCRY_CIPHER_MODE_AESWRAP:
       case GCRY_CIPHER_MODE_CMAC:
-      case GCRY_CIPHER_MODE_EAX:
       case GCRY_CIPHER_MODE_GCM:
 	if (!spec->encrypt || !spec->decrypt)
 	  err = GPG_ERR_INV_CIPHER_MODE;
@@ -807,11 +806,7 @@ cipher_setkey (gcry_cipher_hd_t c, byte *key, size_t keylen)
         case GCRY_CIPHER_MODE_CMAC:
           rc = _gcry_cipher_cmac_set_subkeys (c);
           break;
-
-        case GCRY_CIPHER_MODE_EAX:
-          rc = _gcry_cipher_eax_setkey (c);
-          break;
-
+    
         case GCRY_CIPHER_MODE_GCM:
           _gcry_cipher_gcm_setkey (c);
           break;
@@ -904,11 +899,6 @@ cipher_reset (gcry_cipher_hd_t c)
     {
     case GCRY_CIPHER_MODE_CMAC:
       _gcry_cmac_reset(&c->u_mode.cmac);
-      break;
-
-    case GCRY_CIPHER_MODE_EAX:
-      _gcry_cmac_reset(&c->u_mode.eax.cmac_header);
-      _gcry_cmac_reset(&c->u_mode.eax.cmac_ciphertext);
       break;
 
     case GCRY_CIPHER_MODE_GCM:
@@ -1335,11 +1325,6 @@ _gcry_cipher_setup_mode_ops(gcry_cipher_hd_t c, int mode)
       c->mode_ops.decrypt = _gcry_cipher_ccm_decrypt;
       break;
 
-    case GCRY_CIPHER_MODE_EAX:
-      c->mode_ops.encrypt = _gcry_cipher_eax_encrypt;
-      c->mode_ops.decrypt = _gcry_cipher_eax_decrypt;
-      break;
-
     case GCRY_CIPHER_MODE_GCM:
       c->mode_ops.encrypt = _gcry_cipher_gcm_encrypt;
       c->mode_ops.decrypt = _gcry_cipher_gcm_decrypt;
@@ -1373,10 +1358,6 @@ _gcry_cipher_setup_mode_ops(gcry_cipher_hd_t c, int mode)
       c->mode_ops.setiv = _gcry_cipher_ccm_set_nonce;
       break;
 
-    case GCRY_CIPHER_MODE_EAX:
-      c->mode_ops.setiv = _gcry_cipher_eax_set_nonce;
-      break;
-
     case GCRY_CIPHER_MODE_GCM:
       c->mode_ops.setiv =  _gcry_cipher_gcm_setiv;
       break;
@@ -1408,12 +1389,6 @@ _gcry_cipher_setup_mode_ops(gcry_cipher_hd_t c, int mode)
       c->mode_ops.authenticate = _gcry_cipher_cmac_authenticate;
       c->mode_ops.get_tag      = _gcry_cipher_cmac_get_tag;
       c->mode_ops.check_tag    = _gcry_cipher_cmac_check_tag;
-      break;
-
-    case GCRY_CIPHER_MODE_EAX:
-      c->mode_ops.authenticate = _gcry_cipher_eax_authenticate;
-      c->mode_ops.get_tag      = _gcry_cipher_eax_get_tag;
-      c->mode_ops.check_tag    = _gcry_cipher_eax_check_tag;
       break;
 
     case GCRY_CIPHER_MODE_GCM:
@@ -1620,10 +1595,6 @@ _gcry_cipher_info (gcry_cipher_hd_t h, int cmd, void *buffer, size_t *nbytes)
 
             case GCRY_CIPHER_MODE_CCM:
               *nbytes = h->u_mode.ccm.authlen;
-              break;
-
-            case GCRY_CIPHER_MODE_EAX:
-              *nbytes = h->spec->blocksize;
               break;
 
             case GCRY_CIPHER_MODE_GCM:

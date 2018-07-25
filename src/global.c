@@ -531,7 +531,7 @@ _gcry_vcontrol (enum gcry_ctl_cmds cmd, va_list arg_ptr)
 			       & ~GCRY_SECMEM_FLAG_SUSPEND_WARNING));
       break;
 
-    case GCRYCTL_AUTO_EXPAND_SECMEM:
+    case 78 /*GCRYCTL_AUTO_EXPAND_SECMEM*/:
       _gcry_secmem_set_auto_expand (va_arg (arg_ptr, unsigned int));
       break;
 

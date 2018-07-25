@@ -67,30 +67,10 @@ map_mac_algo_to_md (int mac_algo)
       return GCRY_MD_WHIRLPOOL;
     case GCRY_MAC_HMAC_GOSTR3411_94:
       return GCRY_MD_GOSTR3411_94;
-    case GCRY_MAC_HMAC_GOSTR3411_CP:
-      return GCRY_MD_GOSTR3411_CP;
     case GCRY_MAC_HMAC_STRIBOG256:
       return GCRY_MD_STRIBOG256;
     case GCRY_MAC_HMAC_STRIBOG512:
       return GCRY_MD_STRIBOG512;
-    case GCRY_MAC_HMAC_BLAKE2B_512:
-      return GCRY_MD_BLAKE2B_512;
-    case GCRY_MAC_HMAC_BLAKE2B_384:
-      return GCRY_MD_BLAKE2B_384;
-    case GCRY_MAC_HMAC_BLAKE2B_256:
-      return GCRY_MD_BLAKE2B_256;
-    case GCRY_MAC_HMAC_BLAKE2B_160:
-      return GCRY_MD_BLAKE2B_160;
-    case GCRY_MAC_HMAC_BLAKE2S_256:
-      return GCRY_MD_BLAKE2S_256;
-    case GCRY_MAC_HMAC_BLAKE2S_224:
-      return GCRY_MD_BLAKE2S_224;
-    case GCRY_MAC_HMAC_BLAKE2S_160:
-      return GCRY_MD_BLAKE2S_160;
-    case GCRY_MAC_HMAC_BLAKE2S_128:
-      return GCRY_MD_BLAKE2S_128;
-    case GCRY_MAC_HMAC_SM3:
-      return GCRY_MD_SM3;
     }
 }
 
