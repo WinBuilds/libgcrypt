@@ -1,3 +1,5 @@
+*.lnk
+*.url
 *.lo
 *.o
 .deps/
